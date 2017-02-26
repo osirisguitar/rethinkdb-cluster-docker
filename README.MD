@@ -1,8 +1,11 @@
 # Demonstration of how to set up a cluster for RethinkDB in Docker
 
+Start by reading about what problem I'm actually trying to solve here: https://www.heavymetalcoder.com/setting-up-a-rethinkdb-cluster-in-docker/
+
 ## Get started
 
-1) 
+1) Make it run
+
     $:>docker-compose build && docker-compose run
 
 2) Go into the rethink ui (http://localhost:8081), add a database called `clustertest` and a table called `importantData`. Add a document containing anything into this table.
