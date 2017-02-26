@@ -1,0 +1,63 @@
+version: "2"
+
+services:
+  nodeapp:
+    build: ./testapp
+    networks:
+      - rethink-net
+    environment:
+      - 'dbservers=rethinkdb1;rethinkdb2;rethinkdb3;rethinkdb4;rethinkdb5'
+  rethinkdb1:
+    build: ./rethinkdb
+    environment:
+      - "DBCLUSTERHOSTS=rethinkdb2;rethinkdb3;rethinkdb4;rethinkdb5"
+      - "RETHINKARGS=--server-tag primary --server-name rethinkdb1 --bind all"
+    hostname: rethinkdb1
+    networks:
+      - rethink-net
+    ports:
+      - "8081:8080"
+  rethinkdb2:
+    build: ./rethinkdb
+    environment:
+      - "DBCLUSTERHOSTS=rethinkdb1;rethinkdb3;rethinkdb4;rethinkdb5"
+      - "RETHINKARGS=--server-tag primary --server-name rethinkdb2 --bind all"
+    hostname: rethinkdb2
+    networks:
+      - rethink-net
+    ports:
+      - "8082:8080"
+  rethinkdb3:
+    build: ./rethinkdb
+    environment:
+      - "DBCLUSTERHOSTS=rethinkdb1;rethinkdb2;rethinkdb4;rethinkdb5"
+      - "RETHINKARGS=--server-tag primary --server-name rethinkdb3 --bind all"
+    hostname: rethinkdb3
+    networks:
+      - rethink-net
+    ports:
+      - "8083:8080"
+  rethinkdb4:
+    build: ./rethinkdb
+    environment:
+      - "DBCLUSTERHOSTS=rethinkdb1;rethinkdb2;rethinkdb3;rethinkdb5"
+      - "RETHINKARGS=--server-tag primary --server-name rethinkdb4 --bind all"
+    hostname: rethinkdb4
+    networks:
+      - rethink-net
+    ports:
+      - "8084:8080"
+  rethinkdb5:
+    build: ./rethinkdb
+    environment:
+      - "DBCLUSTERHOSTS=rethinkdb1;rethinkdb2;rethinkdb3;rethinkdb4"
+      - "RETHINKARGS=--server-tag primary --server-name rethinkdb5 --bind all"
+    hostname: rethinkdb5
+    networks:
+      - rethink-net
+    ports:
+      - "8085:8080"
+
+networks:
+  rethink-net:
+    driver: bridge
